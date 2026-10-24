@@ -221,7 +221,7 @@ function PortfolioBody({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void
   const close = (id: TabId) => {
     const next = tabs.filter((t) => t !== id);
     setTabs(next);
-    if (tab === id && next.length) setTab(next[0]);
+    if (tab === id && next.length) setTab(next[0]!);
   };
   const missing = TABS.filter((t) => !tabs.includes(t.id));
   useEffect(() => { if (!tabs.includes(tab)) setTabs((t) => [...t, tab]); }, [tab]);
@@ -237,7 +237,7 @@ function PortfolioBody({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void
           </div>
         ))}
         {missing.length > 0 && (
-          <button onClick={() => { setTabs((t) => [...t, missing[0].id]); setTab(missing[0].id); }} className="px-3 py-1.5 font-mono text-sm hover:text-primary">+</button>
+          <button onClick={() => { setTabs((t) => [...t, missing[0]!.id]); setTab(missing[0]!.id); }} className="px-3 py-1.5 font-mono text-sm hover:text-primary">+</button>
         )}
       </div>
       <div className="flex-1 overflow-auto bg-cream p-8">
@@ -450,7 +450,7 @@ function Pocket() {
             {app === "skills" && <Skills />}
             {app === "journal" && <Journal />}
             {app === "terminal" && <div className="h-[70vh]"><Terminal /></div>}
-            {app === "contact" && <div className="space-y-3 font-mono text-sm">{terminalOut.contact.map((c) => <p key={c} className="pop rounded-lg bg-card p-3">{c}</p>)}</div>}
+            {app === "contact" && <div className="space-y-3 font-mono text-sm">{(terminalOut["contact"] ?? []).map((c) => <p key={c} className="pop rounded-lg bg-card p-3">{c}</p>)}</div>}
           </div>
         </div>
       )}
