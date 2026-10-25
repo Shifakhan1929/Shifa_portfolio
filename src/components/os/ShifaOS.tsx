@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { projects, skills, timeline, journal, terminalOut, SOCIAL_LINKS, type Project } from "./data";
 import { StandbyCenterpiece, type Mood } from "./StandbyCenterpiece";
 import { Button } from "@/components/ui/button";
+import { LeetCodeActivity } from "./LeetCodeActivity";
 
 type WinId = "portfolio" | "terminal" | "bin";
 type TabId = "overview" | "projects" | "skills" | "journal";
@@ -354,6 +355,7 @@ function Overview({ go }: { go: (t: TabId) => void }) {
         </div>
         <div className="grid gap-4 lg:grid-cols-2">{projects.slice(0, 2).map((p) => <ProjectCard key={p.name} p={p} />)}</div>
       </div>
+      <LeetCodeActivity />
     </div>
   );
 }
