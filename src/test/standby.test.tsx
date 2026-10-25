@@ -1,8 +1,9 @@
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { ShifaOS } from "@/components/os/ShifaOS";
 import { StandbyCenterpiece } from "@/components/os/StandbyCenterpiece";
 
+beforeAll(() => { Element.prototype.scrollIntoView = vi.fn(); });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 const centerpiece = () => screen.queryByRole("region", { name: "Shifa Standby Centerpiece" });
 function closePortfolio() {
