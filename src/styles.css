@@ -67,6 +67,10 @@
     linear-gradient(160deg, oklch(0.55 0.1 330), oklch(0.35 0.07 280));
   --shadow-window: 6px 6px 0 0 var(--espresso), 0 30px 60px -20px oklch(0.2 0.05 300 / 0.5);
   --shadow-pop: 3px 3px 0 0 var(--espresso);
+  --standby-hire: oklch(0.8 0.13 160);
+  --standby-resume: oklch(0.78 0.13 80);
+  --standby-bin: oklch(0.75 0.09 290);
+  --standby-idle: oklch(0.8 0.09 210);
 }
 
 @layer base {
@@ -88,3 +92,20 @@
   border-bottom: 1.5px solid var(--espresso);
 }
 @utility glass { background: oklch(0.985 0.008 80 / 0.7); backdrop-filter: blur(14px); }
+
+.standby-centerpiece { --mood-aura: var(--primary); }
+.standby-centerpiece[data-mood="hire"] { --mood-aura: var(--standby-hire); }
+.standby-centerpiece[data-mood="resume"] { --mood-aura: var(--standby-resume); }
+.standby-centerpiece[data-mood="bin"] { --mood-aura: var(--standby-bin); }
+.standby-centerpiece[data-mood="idle"] { --mood-aura: var(--standby-idle); }
+.standby-centerpiece[data-mood="reopen"] { --mood-aura: var(--sage); }
+.standby-frame { border-color: var(--mood-aura); box-shadow: 0 0 24px color-mix(in oklch, var(--mood-aura) 55%, transparent); transition: border-color 250ms, box-shadow 250ms; }
+.standby-bubble { box-shadow: var(--shadow-pop), 0 0 18px color-mix(in oklch, var(--mood-aura) 35%, transparent); transition: box-shadow 250ms; }
+.standby-bubble::after { content: ""; position: absolute; bottom: -9px; left: calc(50% - 8px); width: 16px; height: 16px; background: var(--card); border-right: 1.5px solid var(--espresso); border-bottom: 1.5px solid var(--espresso); transform: rotate(45deg); }
+.standby-contact { background: var(--standby-hire); color: var(--espresso); }
+.standby-contact:hover { background: color-mix(in oklch, var(--standby-hire) 85%, var(--cream)); }
+.standby-chip[aria-pressed="true"], .standby-chip:hover { background: var(--cream); color: var(--espresso); }
+.standby-badge { animation: standby-float 3s ease-in-out infinite; }
+@keyframes standby-float { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-5px) rotate(5deg); } }
+@media (max-height: 720px) { .standby-centerpiece { gap: 10px; } .standby-frame { width: 120px; height: 120px; } }
+@media (prefers-reduced-motion: reduce) { .standby-badge { animation: none; } .standby-frame, .standby-bubble { transition: none; } }

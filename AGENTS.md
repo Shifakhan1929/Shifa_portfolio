@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep desktop standby reactions in a dedicated client component, using global semantic mood tokens; this isolates idle timers and presentation from window management.
+- Closing the last desktop portfolio tab closes its window; a fresh portfolio mount restores all tabs when reopened.
