@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { projects, skills, timeline, journal, terminalOut, type Project } from "./data";
+import { projects, skills, timeline, journal, terminalOut, SOCIAL_LINKS, type Project } from "./data";
 
 type WinId = "portfolio" | "terminal" | "bin";
 type TabId = "overview" | "projects" | "skills" | "journal";
@@ -59,7 +59,9 @@ function Desktop() {
     { label: "Portfolio_Explorer", emoji: "🗂️", act: () => launch("portfolio", "overview") },
     { label: "Projects", emoji: "🚀", act: () => launch("portfolio", "projects") },
     { label: "Terminal_CLI", emoji: "⌨️", act: () => launch("terminal") },
-    { label: "Resume.pdf", emoji: "📄", act: () => {} },
+    { label: "Resume.pdf", emoji: "📄", act: () => window.open(SOCIAL_LINKS.resume, "_blank") },
+    { label: "GitHub", emoji: "🐙", act: () => window.open(SOCIAL_LINKS.github, "_blank") },
+    { label: "LinkedIn", emoji: "💼", act: () => window.open(SOCIAL_LINKS.linkedin, "_blank") },
     { label: "Learning_Journal", emoji: "📓", act: () => launch("portfolio", "journal") },
     { label: "Contact_Me", emoji: "✉️", act: () => launch("terminal") },
     { label: "Recycle_Bin", emoji: "🗑️", act: () => launch("bin") },
@@ -90,9 +92,18 @@ function Desktop() {
       </div>
 
       <div className="pop absolute right-6 top-16 z-0 w-64 rotate-2 rounded-xl bg-amber/90 p-4">
-        <p className="font-mono text-[10px] uppercase tracking-widest">sticky_note.txt</p>
-        <p className="mt-2 text-lg font-extrabold leading-tight">Hey, I'm Shifa! Welcome to my digital space 👋</p>
-        <p className="mt-1 text-sm">4th Year SE Student | Flutter & Web Dev</p>
+        <div className="flex items-center gap-3">
+          <img
+            src="/shifa.jpg"
+            alt="Shifa"
+            className="h-12 w-12 shrink-0 rounded-xl border border-espresso object-cover object-top shadow-sm"
+          />
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-widest">sticky_note.txt</p>
+            <p className="text-base font-extrabold leading-tight">Hey, I'm Shifa! 👋</p>
+          </div>
+        </div>
+        <p className="mt-2 text-xs">Software Engineer | Flutter & Web Developer</p>
         <span className="pop mt-3 inline-flex items-center gap-1.5 rounded-full bg-cream px-2.5 py-1 font-mono text-[10px]">
           <span className="h-2 w-2 animate-pulse rounded-full bg-sage" /> Available for Internships / Full-Time
         </span>
@@ -126,7 +137,14 @@ function Desktop() {
 
       {/* Taskbar */}
       <div className="glass pop absolute bottom-3 left-1/2 z-[60] flex -translate-x-1/2 items-center gap-2 rounded-2xl px-2 py-1.5">
-        <button className="pop rounded-xl bg-primary px-3 py-1.5 text-sm font-bold text-primary-foreground">✨ Shifa</button>
+        <button className="pop flex items-center gap-2 rounded-xl bg-primary px-3 py-1.5 text-sm font-bold text-primary-foreground">
+          <img
+            src="/shifa.jpg"
+            alt="Shifa"
+            className="h-5 w-5 rounded-full border border-primary-foreground/30 object-cover object-top"
+          />
+          <span>✨ Shifa</span>
+        </button>
         {(["portfolio", "terminal", "bin"] as WinId[]).map((id) => (
           <button key={id} onClick={() => launch(id)} className={`relative rounded-xl px-3 py-1.5 font-mono text-xs hover:bg-accent ${focus === id && open[id] && !min[id] ? "bg-accent" : ""}`}>
             {id === "portfolio" ? "🗂️ Explorer" : id === "terminal" ? "⌨️ Terminal" : "🗑️ Bin"}
@@ -254,7 +272,13 @@ function Overview({ go }: { go: (t: TabId) => void }) {
   return (
     <div className="space-y-8">
       <div className="flex flex-wrap items-center gap-6">
-        <div className="pop flex h-24 w-24 items-center justify-center rounded-2xl bg-amber text-5xl">👩‍💻</div>
+        <div className="pop relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border-2 border-espresso bg-amber shadow-sm">
+          <img
+            src="/shifa.jpg"
+            alt="Shifa"
+            className="h-full w-full object-cover object-top"
+          />
+        </div>
         <div className="flex-1">
           <p className="font-mono text-xs text-sage">~/hello-world</p>
           <h1 className="text-4xl font-extrabold tracking-tight">Hi, I'm Shifa. I build <span className="text-primary">cozy, fast apps</span> with Flutter & the Web.</h1>
@@ -262,14 +286,39 @@ function Overview({ go }: { go: (t: TabId) => void }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-3">
-        <button className="pop rounded-lg bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5">⬇ Download Resume</button>
-        <button className="pop rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent">GitHub</button>
-        <button className="pop rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent">LinkedIn</button>
+        <a
+          href={SOCIAL_LINKS.resume}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pop inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5"
+        >
+          📄 Resume Link ↗
+        </a>
+        <a
+          href={SOCIAL_LINKS.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
+        >
+          GitHub ↗
+        </a>
+        <a
+          href={SOCIAL_LINKS.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
+        >
+          LinkedIn ↗
+        </a>
       </div>
-      <div className="grid grid-cols-3 gap-4">
-        {[["12+", "Projects shipped"], ["2", "Internships"], ["500+", "Commits this year"]].map(([n, l]) => (
-          <div key={l} className="pop rounded-xl bg-card p-4"><p className="text-3xl font-extrabold">{n}</p><p className="font-mono text-xs text-muted-foreground">{l}</p></div>
-        ))}
+      <div className="pop rounded-2xl border-[1.5px] border-espresso bg-card p-5 shadow-sm">
+        <div className="mb-2 flex items-center gap-2">
+          <span className="font-mono text-xs font-bold text-primary">// about_me.txt</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+        </div>
+        <p className="text-sm leading-relaxed text-espresso/90">
+          I'm a pre-final year Computer Science & Business Systems student at UIT-RGPV Bhopal with a strong focus on building intuitive, high-performance mobile apps and responsive web products. As a Flutter Developer, I specialize in architecting scalable mobile solutions with Riverpod, BLoC, REST APIs, and Firebase, paired with modern web development using React.js and Node.js. Beyond software engineering, I actively lead creative social media initiatives, video editing, and community leadership.
+        </p>
       </div>
       <div>
         <div className="mb-3 flex items-center justify-between">
@@ -282,27 +331,215 @@ function Overview({ go }: { go: (t: TabId) => void }) {
   );
 }
 
+function ProjectScreenPreview({ p }: { p: Project }) {
+  if (p.type === "web" && p.image) {
+    const isVeerangana = p.name === "Veerangana Web";
+    return (
+      <div className="flex h-44 w-32 shrink-0 flex-col overflow-hidden rounded-[12px] border-[1.5px] border-espresso bg-espresso shadow-sm">
+        <div className="flex h-5 shrink-0 items-center justify-between border-b border-espresso bg-secondary px-2">
+          <div className="flex items-center gap-1">
+            <i className="h-1.5 w-1.5 rounded-full bg-red-400" />
+            <i className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+            <i className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          </div>
+          <div className="mx-1 flex h-3 flex-1 items-center justify-center rounded-sm bg-espresso/10 px-1 font-mono text-[7px] text-muted-foreground truncate">
+            {p.name === "Shifa OS Portfolio" ? "shifa-os.dev" : "veerangana.web"}
+          </div>
+        </div>
+        <div className={`relative flex-1 overflow-hidden select-none ${isVeerangana ? "bg-[#782b45]" : "bg-[#2a2438]"}`}>
+          <img
+            src={p.image}
+            alt={`${p.name} Preview`}
+            className={`h-full w-full object-cover transition-transform duration-300 hover:scale-105 ${isVeerangana ? "object-center" : "object-top"}`}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (p.image) {
+    return (
+      <div className="flex h-44 w-28 shrink-0 flex-col items-center rounded-[16px] border-[1.5px] border-espresso bg-espresso p-1 shadow-sm">
+        <div className="mb-1 h-1 w-6 shrink-0 rounded-full bg-cream/40" />
+        <div className="relative flex w-full flex-1 overflow-hidden rounded-[10px] bg-espresso select-none">
+          <img
+            src={p.image}
+            alt={`${p.name} App Screen`}
+            className={`h-full w-full object-cover transition-transform duration-300 hover:scale-105 ${p.name === "ConnectCall" ? "object-center" : "object-top"}`}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (p.name === "ConnectCall") {
+    return (
+      <div className="flex h-44 w-28 shrink-0 flex-col items-center rounded-[16px] border-[1.5px] border-espresso bg-espresso p-1 shadow-sm">
+        <div className="mb-1 h-1 w-6 shrink-0 rounded-full bg-cream/40" />
+        <div className="relative flex w-full flex-1 flex-col justify-between overflow-hidden rounded-[10px] bg-gradient-to-b from-[#042f2e] via-[#115e59] to-[#042f2e] p-1.5 text-cream select-none">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1 font-mono text-[7.5px] font-bold text-emerald-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              ● 04:18
+            </span>
+            <span className="font-mono text-[7px] text-teal-300/80">HD</span>
+          </div>
+
+          <div className="self-end rounded-md border border-teal-300/40 bg-teal-950/80 p-1 shadow-md">
+            <div className="flex h-7 w-6 items-center justify-center rounded bg-teal-800/60 text-[9px]">
+              👩‍💻
+            </div>
+          </div>
+
+          <div className="mt-auto flex items-center justify-center gap-1.5 rounded-full bg-black/40 py-1">
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-teal-800/80 text-[7px]">
+              🎤
+            </span>
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-teal-800/80 text-[7px]">
+              📷
+            </span>
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-[7px] shadow-sm animate-pulse">
+              📞
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (p.name === "Veerangana") {
+    return (
+      <div className="flex h-44 w-28 shrink-0 flex-col items-center rounded-[16px] border-[1.5px] border-espresso bg-espresso p-1 shadow-sm">
+        <div className="mb-1 h-1 w-6 shrink-0 rounded-full bg-cream/40" />
+        <div className="relative flex w-full flex-1 flex-col justify-between overflow-hidden rounded-[10px] bg-[#1a0b10] p-1.5 text-cream select-none">
+          <div className="flex justify-center">
+            <span className="flex items-center gap-0.5 rounded-full border border-red-500/40 bg-red-950/80 px-1.5 py-0.2 font-mono text-[7px] font-bold text-red-300">
+              📍 Live GPS
+            </span>
+          </div>
+          <div className="my-auto flex flex-col items-center justify-center">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-red-300/40 bg-gradient-to-br from-red-500 to-rose-700 shadow-md shadow-red-500/50 animate-pulse">
+              <span className="font-mono text-[9px] font-black text-white leading-none">🚨 SOS</span>
+            </div>
+          </div>
+          <div className="mt-auto rounded-md border border-rose-500/40 bg-rose-950/70 px-1 py-0.5 text-center">
+            <span className="font-mono text-[7px] font-bold text-rose-300">1091 Helpline</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (p.name === "Supplify") {
+    return (
+      <div className="flex h-44 w-28 shrink-0 flex-col items-center rounded-[16px] border-[1.5px] border-espresso bg-espresso p-1 shadow-sm">
+        <div className="mb-1 h-1 w-6 shrink-0 rounded-full bg-cream/40" />
+        <div className="relative flex w-full flex-1 flex-col justify-between overflow-hidden rounded-[10px] bg-[#0b1329] p-1.5 text-cream select-none">
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-1 font-mono text-[7px] font-bold text-emerald-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
+              ⚡ Live Sync
+            </span>
+          </div>
+          <div className="my-auto flex h-10 items-end justify-center gap-1.5 px-1">
+            <div className="h-5 w-2.5 rounded-t bg-sky-400/90 shadow-xs" />
+            <div className="h-9 w-2.5 rounded-t bg-emerald-400 shadow-xs" />
+            <div className="h-7 w-2.5 rounded-t bg-indigo-400 shadow-xs" />
+          </div>
+          <div className="mt-auto rounded-md border border-sky-500/30 bg-slate-800/80 px-1 py-0.5 text-center">
+            <span className="font-mono text-[7px] font-bold text-sky-300">📦 1.2k Stock</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (p.name === "Veerangana Web") {
+    return (
+      <div className="flex h-44 w-32 shrink-0 flex-col overflow-hidden rounded-[12px] border-[1.5px] border-espresso bg-espresso shadow-sm">
+        <div className="flex h-4 shrink-0 items-center gap-1 border-b border-espresso bg-secondary px-1.5">
+          <i className="h-1.5 w-1.5 rounded-full bg-red-400" />
+          <i className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+          <i className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+        </div>
+        <div className="relative flex flex-1 flex-col justify-between overflow-hidden bg-[#151119] p-2 text-cream select-none">
+          <div>
+            <div className="flex items-center gap-1 border-b border-rose-500/20 pb-1">
+              <span className="text-[9px] leading-none">🛡️</span>
+              <p className="text-[8px] font-black tracking-tight text-rose-200">Safety Portal</p>
+            </div>
+            <div className="mt-2 space-y-1">
+              <div className="h-1 w-14 rounded bg-white/20" />
+              <div className="h-1 w-10 rounded bg-white/10" />
+            </div>
+          </div>
+          <div className="mt-auto self-end rounded-lg border border-rose-300/40 bg-gradient-to-r from-rose-500 to-pink-600 px-1.5 py-1 shadow-md shadow-rose-500/30 animate-pulse">
+            <span className="font-mono text-[7.5px] font-extrabold text-white">🤖 Sakhi AI</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Shifa OS Portfolio (Card 6)
+  return (
+    <div className="flex h-44 w-32 shrink-0 flex-col overflow-hidden rounded-[12px] border-[1.5px] border-espresso bg-espresso shadow-sm">
+      <div className="flex h-4 shrink-0 items-center gap-1 border-b border-espresso bg-secondary px-1.5">
+        <i className="h-1.5 w-1.5 rounded-full bg-red-400" />
+        <i className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+        <i className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+      </div>
+      <div className="relative flex flex-1 flex-col justify-between overflow-hidden bg-gradient-to-br from-[#2a2438] to-[#1c1825] p-2 text-cream select-none">
+        <div>
+          <div className="flex items-center gap-1 border-b border-white/15 pb-1">
+            <span className="text-[9px] leading-none">🖥️</span>
+            <p className="text-[8px] font-black tracking-tight text-amber-200">Shifa OS</p>
+          </div>
+          <div className="mt-2 flex items-center justify-between">
+            <div className="h-7 w-12 rounded border border-amber/40 bg-amber/20 p-1 shadow-xs">
+              <div className="h-1 w-6 rounded-full bg-amber-300/60" />
+            </div>
+            <span className="text-[12px]">⌨️</span>
+          </div>
+        </div>
+        <div className="mt-auto flex items-center justify-center gap-1 rounded-full bg-white/10 py-0.5 px-1 border border-white/10">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+          <span className="h-1.5 w-1.5 rounded-full bg-amber" />
+          <span className="h-1.5 w-1.5 rounded-full bg-sage" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProjectCard({ p }: { p: Project }) {
   return (
     <div className="pop flex gap-4 rounded-xl bg-card p-4 transition-transform hover:-translate-y-1">
-      {p.type === "flutter" ? (
-        <div className="flex h-36 w-20 shrink-0 flex-col items-center rounded-[14px] border-[1.5px] border-espresso bg-espresso p-1">
-          <div className="mb-1 h-1 w-6 rounded-full bg-cream/40" />
-          <div className="flex w-full flex-1 items-center justify-center rounded-[10px] bg-amber/80 text-3xl">{p.emoji}</div>
-        </div>
-      ) : (
-        <div className="flex h-24 w-32 shrink-0 flex-col overflow-hidden rounded-lg border-[1.5px] border-espresso">
-          <div className="flex h-3 gap-0.5 bg-secondary px-1 py-0.5"><i className="h-1.5 w-1.5 rounded-full bg-primary" /><i className="h-1.5 w-1.5 rounded-full bg-amber" /></div>
-          <div className="flex flex-1 items-center justify-center bg-sage/30 text-3xl">{p.emoji}</div>
-        </div>
-      )}
+      <ProjectScreenPreview p={p} />
       <div className="flex flex-1 flex-col">
-        <div className="flex items-center gap-2"><h3 className="font-bold">{p.name}</h3><span className="font-mono text-[10px] text-muted-foreground">{p.type === "flutter" ? "📱 Flutter" : "🌐 Web"}</span></div>
+        <div className="flex items-center gap-2">
+          <h3 className="font-bold">{p.name}</h3>
+          <span className="font-mono text-[10px] text-muted-foreground">
+            {p.type === "flutter" ? "📱 Flutter" : "🌐 Web"}
+          </span>
+        </div>
         <p className="mt-1 text-sm text-muted-foreground">{p.desc}</p>
-        <div className="mt-2 flex flex-wrap gap-1">{p.stack.map((s) => <span key={s} className="rounded-md bg-secondary px-1.5 py-0.5 font-mono text-[10px]">{s}</span>)}</div>
+        <div className="mt-2 flex flex-wrap gap-1">
+          {p.stack.map((s) => (
+            <span key={s} className="rounded-md bg-secondary px-1.5 py-0.5 font-mono text-[10px]">
+              {s}
+            </span>
+          ))}
+        </div>
         <div className="mt-auto flex gap-2 pt-3">
-          <button className="rounded-md border-[1.5px] border-espresso px-2 py-1 font-mono text-[11px] hover:bg-accent">GitHub</button>
-          <button className="rounded-md border-[1.5px] border-espresso bg-sage px-2 py-1 font-mono text-[11px] text-cream">Live Demo ↗</button>
+          <a
+            href={p.github ?? SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-md border-[1.5px] border-espresso px-2 py-1 font-mono text-[11px] hover:bg-accent"
+          >
+            GitHub ↗
+          </a>
         </div>
       </div>
     </div>
@@ -326,24 +563,83 @@ function Projects() {
 function Skills() {
   return (
     <div className="space-y-8">
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
         {skills.map((s, i) => (
-          <div key={s.cat} className="pop rounded-xl bg-card p-4">
-            <p className={`font-mono text-xs font-semibold ${["text-primary", "text-sage", "text-amber"][i]}`}>"{s.cat}": [</p>
-            <div className="mt-2 flex flex-wrap gap-1.5">{s.items.map((it) => <span key={it} className="rounded-md border-[1.5px] border-espresso bg-cream px-2 py-0.5 text-xs font-medium">{it}</span>)}</div>
-            <p className="mt-2 font-mono text-xs">]</p>
+          <div
+            key={s.cat}
+            className="pop flex flex-col justify-between rounded-xl bg-espresso p-4 text-cream transition-transform hover:-translate-y-0.5"
+          >
+            <div>
+              <p className={`font-mono text-xs font-bold ${s.headerColor}`}>"{s.cat}": [</p>
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {s.items.map((it) => (
+                  <span
+                    key={it}
+                    className="rounded-md border border-cream/20 bg-cream/10 px-2 py-0.5 font-mono text-[11px] font-medium text-cream/90 transition-colors hover:bg-cream/20"
+                  >
+                    {it}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <p className="mt-3 font-mono text-xs font-semibold text-cream/40">
+              {i < skills.length - 1 ? "]," : "]"}
+            </p>
           </div>
         ))}
       </div>
       <div>
         <h2 className="mb-4 font-mono text-sm font-semibold">// experience & education</h2>
-        <div className="space-y-4 border-l-[1.5px] border-espresso pl-6">
+        <div className="space-y-4 border-l-2 border-espresso pl-6">
           {timeline.map((t) => (
             <div key={t.title} className="relative">
-              <span className="absolute -left-[31px] top-1 h-3 w-3 rounded-full border-[1.5px] border-espresso bg-primary" />
-              <p className="font-mono text-xs text-muted-foreground">{t.when}</p>
-              <p className="font-bold">{t.title}</p>
-              <p className="text-sm text-muted-foreground">{t.where}</p>
+              {t.featured ? (
+                <span className="absolute -left-[33px] top-4 flex h-4 w-4 items-center justify-center">
+                  <span className="absolute h-full w-full animate-ping rounded-full bg-[#f87171] opacity-60" />
+                  <span className="relative h-3.5 w-3.5 rounded-full border-2 border-espresso bg-[#f87171] shadow-sm" />
+                </span>
+              ) : (
+                <span className="absolute -left-[31px] top-4 h-3 w-3 rounded-full border-2 border-espresso bg-amber" />
+              )}
+              <div
+                className={`pop rounded-xl bg-card p-4 transition-transform hover:-translate-y-0.5 ${
+                  t.featured ? "border-2 border-[#f87171] ring-2 ring-[#f87171]/20" : "border-[1.5px] border-espresso"
+                }`}
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="font-mono text-xs font-semibold text-muted-foreground">{t.when}</span>
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 font-mono text-[11px] font-bold ${
+                      t.badgeType === "featured"
+                        ? "border border-[#f87171]/50 bg-[#f87171]/15 text-[#e05252]"
+                        : t.badgeType === "creative"
+                        ? "border border-amber/50 bg-amber/25 text-espresso"
+                        : "border border-sage/50 bg-sage/25 text-espresso"
+                    }`}
+                  >
+                    {t.badge}
+                  </span>
+                </div>
+                <div className="mt-1.5">
+                  <h3 className="text-base font-extrabold text-espresso">{t.title}</h3>
+                  <p className="font-mono text-xs font-semibold text-sage">{t.where}</p>
+                </div>
+                {t.desc && (
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.desc}</p>
+                )}
+                {t.skills && t.skills.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {t.skills.map((pill) => (
+                      <span
+                        key={pill}
+                        className="rounded-md border-[1.5px] border-espresso bg-cream px-2 py-0.5 font-mono text-[11px] font-medium text-espresso shadow-xs"
+                      >
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -373,7 +669,9 @@ function Terminal() {
   const [lines, setLines] = useState<string[]>(["Welcome to Shifa OS terminal. Type 'help'."]);
   const [v, setV] = useState("");
   const end = useRef<HTMLDivElement>(null);
-  useEffect(() => end.current?.scrollIntoView(), [lines]);
+  useEffect(() => {
+    end.current?.scrollIntoView();
+  }, [lines]);
   const run = (c: string) => {
     const cmd = c.trim().toLowerCase();
     if (cmd === "clear") return setLines([]);
@@ -405,19 +703,52 @@ type MApp = null | "about" | "projects" | "skills" | "terminal" | "journal" | "c
 function Pocket() {
   const now = useClock();
   const [app, setApp] = useState<MApp>(null);
-  const grid: { id: MApp; label: string; emoji: string }[] = [
+  const grid: { id: MApp; label: string; emoji: string; act?: () => void }[] = [
     { id: "about", label: "About", emoji: "👩‍💻" }, { id: "projects", label: "Projects", emoji: "🚀" },
     { id: "skills", label: "Skills", emoji: "🛠️" }, { id: "terminal", label: "Terminal", emoji: "⌨️" },
-    { id: "journal", label: "Journal", emoji: "📓" }, { id: "contact", label: "Resume", emoji: "📄" },
+    { id: "journal", label: "Journal", emoji: "📓" },
+    { id: "contact", label: "Resume", emoji: "📄", act: () => window.open(SOCIAL_LINKS.resume, "_blank") },
   ];
   return (
     <div className="wallpaper relative min-h-screen overflow-hidden pb-24 font-sans">
       <div className="flex justify-between px-5 py-2 font-mono text-xs text-cream"><span>ShifaOS 5G</span><span>{now?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span><span>98% 🔋</span></div>
       <div className="pop mx-4 mt-2 rounded-2xl bg-amber p-4">
-        <p className="text-xl font-extrabold">Hey, I'm Shifa! 👋</p>
-        <p className="text-sm">4th Year SE Student | Flutter & Web Dev</p>
-        <div className="mt-3 flex gap-2">
-          {["Resume", "GitHub", "Contact"].map((b) => <button key={b} className="pop rounded-lg bg-cream px-3 py-1 text-xs font-semibold">{b}</button>)}
+        <div className="flex items-center gap-3">
+          <img
+            src="/shifa.jpg"
+            alt="Shifa"
+            className="h-14 w-14 shrink-0 rounded-2xl border-2 border-espresso object-cover object-top shadow-sm"
+          />
+          <div>
+            <p className="text-xl font-extrabold leading-tight">Hey, I'm Shifa! 👋</p>
+            <p className="text-xs text-espresso/80">Software Engineer | Flutter & Web Developer</p>
+          </div>
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <a
+            href={SOCIAL_LINKS.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pop rounded-lg bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground"
+          >
+            📄 Resume Link ↗
+          </a>
+          <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pop rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
+          >
+            GitHub ↗
+          </a>
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pop rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
+          >
+            LinkedIn ↗
+          </a>
         </div>
       </div>
       <p className="mx-5 mt-5 font-mono text-xs text-cream">featured_projects →</p>
@@ -432,7 +763,17 @@ function Pocket() {
       </div>
       <div className="mx-4 mt-3 grid grid-cols-3 gap-5">
         {grid.map((g) => (
-          <button key={g.label} onClick={() => setApp(g.id)} className="flex flex-col items-center gap-1">
+          <button
+            key={g.label}
+            onClick={() => {
+              if (g.act) {
+                g.act();
+              } else {
+                setApp(g.id);
+              }
+            }}
+            className="flex flex-col items-center gap-1"
+          >
             <span className="pop flex h-16 w-16 items-center justify-center rounded-2xl bg-card text-3xl">{g.emoji}</span>
             <span className="text-xs font-semibold text-cream">{g.label}</span>
           </button>
@@ -450,7 +791,37 @@ function Pocket() {
             {app === "skills" && <Skills />}
             {app === "journal" && <Journal />}
             {app === "terminal" && <div className="h-[70vh]"><Terminal /></div>}
-            {app === "contact" && <div className="space-y-3 font-mono text-sm">{(terminalOut["contact"] ?? []).map((c) => <p key={c} className="pop rounded-lg bg-card p-3">{c}</p>)}</div>}
+            {app === "contact" && (
+              <div className="space-y-3 font-mono text-sm">
+                <a
+                  href={SOCIAL_LINKS.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pop flex items-center justify-between rounded-lg bg-primary p-3 font-bold text-primary-foreground"
+                >
+                  <span>📄 Resume Link (Google Drive)</span>
+                  <span>↗</span>
+                </a>
+                <a
+                  href={SOCIAL_LINKS.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pop flex items-center justify-between rounded-lg bg-card p-3 hover:bg-accent"
+                >
+                  <span>🐙 GitHub: @Shifakhan1929</span>
+                  <span>↗</span>
+                </a>
+                <a
+                  href={SOCIAL_LINKS.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pop flex items-center justify-between rounded-lg bg-card p-3 hover:bg-accent"
+                >
+                  <span>💼 LinkedIn: /in/shifakhan2</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       )}
