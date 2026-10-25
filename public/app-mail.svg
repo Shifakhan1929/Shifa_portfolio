@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <filter id="mailShadow" x="3" y="7" width="42" height="34" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#064e3b" flood-opacity="0.25"/>
+    </filter>
+    <linearGradient id="mailGrad" x1="6" y1="10" x2="42" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#mailShadow)">
+    <rect x="6" y="10" width="36" height="28" rx="5" fill="url(#mailGrad)"/>
+  </g>
+  <!-- Envelope Flap Lines -->
+  <path d="M6 12L24 25L42 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M6 36L19 23" stroke="#065f46" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M42 36L29 23" stroke="#065f46" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Glowing notification badge / stamp -->
+  <rect x="31" y="13" width="7" height="6" rx="1.5" fill="#fde68a"/>
+</svg>

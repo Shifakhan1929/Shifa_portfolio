@@ -45,7 +45,6 @@ function Desktop() {
   const [open, setOpen] = useState<Record<WinId, boolean>>({ portfolio: true, terminal: false, bin: false });
   const [min, setMin] = useState<Record<WinId, boolean>>({ portfolio: false, terminal: false, bin: false });
   const [focus, setFocus] = useState<WinId>("portfolio");
-  const [toast, setToast] = useState(true);
   const [tab, setTab] = useState<TabId>("overview");
 
   const launch = (id: WinId, t?: TabId) => {
@@ -55,16 +54,16 @@ function Desktop() {
     if (t) setTab(t);
   };
 
-  const icons: { label: string; emoji: string; act: () => void }[] = [
-    { label: "Portfolio_Explorer", emoji: "🗂️", act: () => launch("portfolio", "overview") },
-    { label: "Projects", emoji: "🚀", act: () => launch("portfolio", "projects") },
-    { label: "Terminal_CLI", emoji: "⌨️", act: () => launch("terminal") },
-    { label: "Resume.pdf", emoji: "📄", act: () => window.open(SOCIAL_LINKS.resume, "_blank") },
-    { label: "GitHub", emoji: "🐙", act: () => window.open(SOCIAL_LINKS.github, "_blank") },
-    { label: "LinkedIn", emoji: "💼", act: () => window.open(SOCIAL_LINKS.linkedin, "_blank") },
-    { label: "Learning_Journal", emoji: "📓", act: () => launch("portfolio", "journal") },
-    { label: "Contact_Me", emoji: "✉️", act: () => launch("terminal") },
-    { label: "Recycle_Bin", emoji: "🗑️", act: () => launch("bin") },
+  const icons: { label: string; image: string; act: () => void }[] = [
+    { label: "Portfolio_Explorer", image: "/folder-explorer.svg", act: () => launch("portfolio", "overview") },
+    { label: "Projects", image: "/folder-projects.svg", act: () => launch("portfolio", "projects") },
+    { label: "Terminal_CLI", image: "/app-terminal.svg", act: () => launch("terminal") },
+    { label: "Resume.pdf", image: "/doc-pdf.svg", act: () => window.open(SOCIAL_LINKS.resume, "_blank") },
+    { label: "GitHub", image: "/github.svg", act: () => window.open(SOCIAL_LINKS.github, "_blank") },
+    { label: "LinkedIn", image: "/linkedin.svg", act: () => window.open(SOCIAL_LINKS.linkedin, "_blank") },
+    { label: "Learning_Journal", image: "/app-journal.svg", act: () => launch("portfolio", "journal") },
+    { label: "Contact_Me", image: "/app-mail.svg", act: () => launch("terminal") },
+    { label: "Recycle_Bin", image: "/app-trash.svg", act: () => launch("bin") },
   ];
 
   if (classic) {
@@ -85,7 +84,9 @@ function Desktop() {
       <div className="absolute left-4 top-14 z-0 flex flex-col gap-3">
         {icons.map((i) => (
           <button key={i.label} onDoubleClick={i.act} onClick={i.act} className="group flex w-24 flex-col items-center gap-1 rounded-lg p-2 hover:bg-card/30">
-            <span className="pop flex h-12 w-12 items-center justify-center rounded-xl bg-card text-2xl transition-transform group-hover:-translate-y-0.5">{i.emoji}</span>
+            <span className="pop flex h-12 w-12 items-center justify-center rounded-xl bg-card p-2 transition-transform group-hover:-translate-y-0.5">
+              <img src={i.image} alt={i.label} className="h-full w-full object-contain filter drop-shadow-xs" />
+            </span>
             <span className="rounded bg-espresso/60 px-1.5 font-mono text-[10px] text-cream">{i.label}</span>
           </button>
         ))}
@@ -152,15 +153,6 @@ function Desktop() {
           </button>
         ))}
       </div>
-
-      {toast && (
-        <div className="pop absolute bottom-20 right-5 z-[60] w-72 rounded-xl bg-card p-3 text-sm animate-in slide-in-from-right">
-          <div className="flex items-start justify-between gap-2">
-            <p>💡 <b>Tip:</b> Drag windows around, switch tabs, or maximize for full-screen reading!</p>
-            <button onClick={() => setToast(false)} className="font-mono text-xs">×</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -281,8 +273,12 @@ function Overview({ go }: { go: (t: TabId) => void }) {
         </div>
         <div className="flex-1">
           <p className="font-mono text-xs text-sage">~/hello-world</p>
-          <h1 className="text-4xl font-extrabold tracking-tight">Hi, I'm Shifa. I build <span className="text-primary">cozy, fast apps</span> with Flutter & the Web.</h1>
-          <p className="mt-2 max-w-xl text-muted-foreground">4th-year Software Engineering student turning ideas into polished mobile and web experiences.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-espresso leading-snug">
+            Hi, I'm Shifa. I build{" "}
+            <span className="text-primary font-extrabold text-[1.12em]">seamless, fast apps</span>{" "}
+            with Flutter & the Web.
+          </h1>
+          <p className="mt-2 max-w-xl text-xs sm:text-sm text-muted-foreground leading-relaxed">Software Engineer transforming complex ideas into polished, scalable mobile and web experiences.</p>
         </div>
       </div>
       <div className="flex flex-wrap gap-3">
@@ -292,23 +288,32 @@ function Overview({ go }: { go: (t: TabId) => void }) {
           rel="noopener noreferrer"
           className="pop inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5"
         >
-          📄 Resume Link ↗
+          📄 Get Resume ↗
         </a>
         <a
           href={SOCIAL_LINKS.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
+          className="pop inline-flex items-center gap-2 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
         >
+          <img src="/github.svg" alt="GitHub" className="h-4 w-4 object-contain" />
           GitHub ↗
         </a>
         <a
           href={SOCIAL_LINKS.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
+          className="pop inline-flex items-center gap-2 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
         >
+          <img src="/linkedin.svg" alt="LinkedIn" className="h-4 w-4 object-contain rounded-[2px]" />
           LinkedIn ↗
+        </a>
+        <a
+          href={SOCIAL_LINKS.email}
+          className="pop inline-flex items-center gap-2 rounded-lg bg-cream px-4 py-2 text-sm font-semibold hover:bg-accent"
+        >
+          <img src="/app-mail.svg" alt="Contact" className="h-4 w-4 object-contain" />
+          Contact Me ↗
         </a>
       </div>
       <div className="pop rounded-2xl border-[1.5px] border-espresso bg-card p-5 shadow-sm">
@@ -317,7 +322,7 @@ function Overview({ go }: { go: (t: TabId) => void }) {
           <span className="h-1.5 w-1.5 rounded-full bg-primary" />
         </div>
         <p className="text-sm leading-relaxed text-espresso/90">
-          I'm a pre-final year Computer Science & Business Systems student at UIT-RGPV Bhopal with a strong focus on building intuitive, high-performance mobile apps and responsive web products. As a Flutter Developer, I specialize in architecting scalable mobile solutions with Riverpod, BLoC, REST APIs, and Firebase, paired with modern web development using React.js and Node.js. Beyond software engineering, I actively lead creative social media initiatives, video editing, and community leadership.
+          I'm a Software Engineer with a strong focus on building intuitive, high-performance mobile apps and responsive web products. As a Flutter Developer, I specialize in architecting scalable cross-platform solutions with Riverpod, BLoC, REST APIs, and Firebase, paired with modern web development using React.js and Node.js. Beyond core engineering, I lead creative digital strategy, visual storytelling, and community initiatives—bridging clean architecture with standout user experiences.
         </p>
       </div>
       <div>
@@ -703,11 +708,13 @@ type MApp = null | "about" | "projects" | "skills" | "terminal" | "journal" | "c
 function Pocket() {
   const now = useClock();
   const [app, setApp] = useState<MApp>(null);
-  const grid: { id: MApp; label: string; emoji: string; act?: () => void }[] = [
-    { id: "about", label: "About", emoji: "👩‍💻" }, { id: "projects", label: "Projects", emoji: "🚀" },
-    { id: "skills", label: "Skills", emoji: "🛠️" }, { id: "terminal", label: "Terminal", emoji: "⌨️" },
-    { id: "journal", label: "Journal", emoji: "📓" },
-    { id: "contact", label: "Resume", emoji: "📄", act: () => window.open(SOCIAL_LINKS.resume, "_blank") },
+  const grid: { id: MApp; label: string; image: string; act?: () => void }[] = [
+    { id: "about", label: "About", image: "/folder-explorer.svg" },
+    { id: "projects", label: "Projects", image: "/folder-projects.svg" },
+    { id: "skills", label: "Skills", image: "/app-terminal.svg" },
+    { id: "terminal", label: "Terminal", image: "/app-terminal.svg" },
+    { id: "journal", label: "Journal", image: "/app-journal.svg" },
+    { id: "contact", label: "Resume", image: "/doc-pdf.svg", act: () => window.open(SOCIAL_LINKS.resume, "_blank") },
   ];
   return (
     <div className="wallpaper relative min-h-screen overflow-hidden pb-24 font-sans">
@@ -731,23 +738,32 @@ function Pocket() {
             rel="noopener noreferrer"
             className="pop rounded-lg bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground"
           >
-            📄 Resume Link ↗
+            📄 Get Resume ↗
           </a>
           <a
             href={SOCIAL_LINKS.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="pop rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
+            className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
           >
+            <img src="/github.svg" alt="GitHub" className="h-3.5 w-3.5 object-contain" />
             GitHub ↗
           </a>
           <a
             href={SOCIAL_LINKS.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="pop rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
+            className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
           >
+            <img src="/linkedin.svg" alt="LinkedIn" className="h-3.5 w-3.5 object-contain rounded-[2px]" />
             LinkedIn ↗
+          </a>
+          <a
+            href={SOCIAL_LINKS.email}
+            className="pop inline-flex items-center gap-1.5 rounded-lg bg-cream px-3 py-1 text-xs font-semibold hover:bg-accent"
+          >
+            <img src="/app-mail.svg" alt="Contact" className="h-3.5 w-3.5 object-contain" />
+            Contact Me ↗
           </a>
         </div>
       </div>
@@ -774,7 +790,9 @@ function Pocket() {
             }}
             className="flex flex-col items-center gap-1"
           >
-            <span className="pop flex h-16 w-16 items-center justify-center rounded-2xl bg-card text-3xl">{g.emoji}</span>
+            <span className="pop flex h-16 w-16 items-center justify-center rounded-2xl bg-card p-3">
+              <img src={g.image} alt={g.label} className="h-full w-full object-contain" />
+            </span>
             <span className="text-xs font-semibold text-cream">{g.label}</span>
           </button>
         ))}
@@ -799,7 +817,7 @@ function Pocket() {
                   rel="noopener noreferrer"
                   className="pop flex items-center justify-between rounded-lg bg-primary p-3 font-bold text-primary-foreground"
                 >
-                  <span>📄 Resume Link (Google Drive)</span>
+                  <span>📄 Get Resume (Google Drive)</span>
                   <span>↗</span>
                 </a>
                 <a
@@ -808,7 +826,10 @@ function Pocket() {
                   rel="noopener noreferrer"
                   className="pop flex items-center justify-between rounded-lg bg-card p-3 hover:bg-accent"
                 >
-                  <span>🐙 GitHub: @Shifakhan1929</span>
+                  <span className="flex items-center gap-2">
+                    <img src="/github.svg" alt="GitHub" className="h-4 w-4 object-contain" />
+                    <span>GitHub: @Shifakhan1929</span>
+                  </span>
                   <span>↗</span>
                 </a>
                 <a
@@ -817,7 +838,20 @@ function Pocket() {
                   rel="noopener noreferrer"
                   className="pop flex items-center justify-between rounded-lg bg-card p-3 hover:bg-accent"
                 >
-                  <span>💼 LinkedIn: /in/shifakhan2</span>
+                  <span className="flex items-center gap-2">
+                    <img src="/linkedin.svg" alt="LinkedIn" className="h-4 w-4 object-contain rounded-[2px]" />
+                    <span>LinkedIn: /in/shifakhan2</span>
+                  </span>
+                  <span>↗</span>
+                </a>
+                <a
+                  href={SOCIAL_LINKS.email}
+                  className="pop flex items-center justify-between rounded-lg bg-card p-3 hover:bg-accent"
+                >
+                  <span className="flex items-center gap-2">
+                    <img src="/app-mail.svg" alt="Email" className="h-4 w-4 object-contain" />
+                    <span>Email: shifakhan1929@gmail.com</span>
+                  </span>
                   <span>↗</span>
                 </a>
               </div>

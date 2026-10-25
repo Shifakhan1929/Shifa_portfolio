@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="backGrad" x1="4" y1="8" x2="44" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="frontGrad" x1="4" y1="18" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="folderShadow" x="0" y="14" width="48" height="34" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0c4a6e" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Back Flap -->
+  <path d="M4 11C4 8.79086 5.79086 7 8 7H18.5858C19.6466 7 20.664 7.42143 21.4142 8.17157L24.8284 11.5858C25.5786 12.3359 26.596 12.7574 27.6569 12.7574H40C42.2091 12.7574 44 14.5482 44 16.7574V36C44 38.2091 42.2091 40 40 40H8C5.79086 40 4 38.2091 4 36V11Z" fill="url(#backGrad)"/>
+  <!-- Papers inside -->
+  <rect x="9" y="11" width="30" height="12" rx="2" fill="#f8fafc" opacity="0.9"/>
+  <rect x="13" y="14" width="22" height="1.5" rx="0.75" fill="#94a3b8"/>
+  <rect x="13" y="17" width="16" height="1.5" rx="0.75" fill="#cbd5e1"/>
+  <!-- Front Flap with Shadow -->
+  <g filter="url(#folderShadow)">
+    <path d="M4 19C4 16.7909 5.79086 15 8 15H40C42.2091 15 44 16.7909 44 19V36C44 38.2091 42.2091 40 40 40H8C5.79086 40 4 38.2091 4 36V19Z" fill="url(#frontGrad)"/>
+  </g>
+  <!-- Folder Highlight -->
+  <path d="M8 16H40C41.6569 16 43 17.3431 43 19V20C43 18.3431 41.6569 17 40 17H8C6.34315 17 5 18.3431 5 20V19C5 17.3431 6.34315 16 8 16Z" fill="#ffffff" opacity="0.35"/>
+  <!-- Code Badge / Icon on Folder -->
+  <rect x="17" y="23" width="14" height="11" rx="2.5" fill="#075985" opacity="0.4"/>
+  <path d="M21.5 26L19 28.5L21.5 31" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26.5 26L29 28.5L26.5 31" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24.75 25.5L23.25 31.5" stroke="#38bdf8" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

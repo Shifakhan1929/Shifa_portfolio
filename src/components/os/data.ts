@@ -151,24 +151,40 @@ export const timeline: TimelineItem[] = [
 ];
 
 export const journal = [
-  { date: "Oct 2026", title: "Learning: Flutter animations deep-dive", body: "Exploring implicit vs explicit animations, Hero transitions and custom painters." },
-  { date: "Sep 2026", title: "Building: CampusEats v2", body: "Migrating state to Riverpod 2 and adding push notifications." },
-  { date: "Aug 2026", title: "Reading: Designing Data-Intensive Apps", body: "Chapter notes on replication and why consistency is hard." },
+  {
+    date: "Oct 2026",
+    title: "Building: Shifa OS (Interactive Web Portfolio)",
+    body: "Crafting a desktop-inspired web environment in React & TypeScript with draggable window management and custom mobile-OS responsiveness.",
+  },
+  {
+    date: "Sep 2026",
+    title: "Engineering: WeTravel AI & State Architecture",
+    body: "Scaling collaborative Flutter workflows using Riverpod, BLoC, Dio, and FastAPI for personalized AI trip generation.",
+  },
+  {
+    date: "Aug 2026",
+    title: "Exploring: WebRTC Signaling & Algorithmic Problem Solving",
+    body: "Building 1-to-1 live video calling with Firestore signaling in ConnectCall alongside solving 150+ DSA problems on LeetCode.",
+  },
 ];
 
 export const SOCIAL_LINKS = {
   resume: "https://drive.google.com/file/d/1ivwNuksFj7AS4MijeLzRhhPRornK_foc/view?usp=sharing",
   github: "https://github.com/Shifakhan1929",
   linkedin: "https://www.linkedin.com/in/shifakhan2",
+  email: "mailto:shifakhan1929@gmail.com",
 };
 
 export const terminalOut: Record<string, string[]> = {
   help: ["Commands: help, about, projects, skills, contact, resume, clear"],
-  about: ["Shifa — 4th-year SE student.", "Flutter & Web dev who loves cozy, useful UI."],
+  about: [
+    "Shifa — Software Engineer (Flutter & Web).",
+    "Architecting scalable cross-platform solutions with Riverpod, BLoC, React.js & Node.js.",
+  ],
   projects: projects.map((p) => `• ${p.name} [${p.type}] — ${p.desc}`),
   skills: skills.map((s) => `${s.cat}: ${s.items.join(", ")}`),
   contact: [
-    "email: shifa@example.com",
+    "email: shifakhan1929@gmail.com",
     `github: ${SOCIAL_LINKS.github}`,
     `linkedin: ${SOCIAL_LINKS.linkedin}`,
   ],
