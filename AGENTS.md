@@ -13,3 +13,4 @@
 - Closing the last desktop portfolio tab closes its window; a fresh portfolio mount restores all tabs when reopened.
 - Pocket shows the shared standby component after returning home from an app, while retaining its initial home screen; mobile uses normal-flow positioning so all actions stay reachable.
 - Standby timers count pointer, keyboard, focus, and scroll activity, wake idle reactions on return, and pause while the document is hidden.
+- LeetCode activity uses a client-only public API refresh with validated response normalization; preserve supplied fallback stats and label illustrative calendars honestly when live history is unavailable.

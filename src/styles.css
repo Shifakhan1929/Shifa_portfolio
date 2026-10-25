@@ -71,6 +71,19 @@
   --standby-resume: oklch(0.78 0.13 80);
   --standby-bin: oklch(0.75 0.09 290);
   --standby-idle: oklch(0.8 0.09 210);
+  --coding-surface: oklch(0.23 0.008 260);
+  --coding-text: oklch(0.98 0 0);
+  --coding-muted: oklch(0.7 0.01 260);
+  --coding-border: oklch(0.34 0.01 260);
+  --coding-easy: #00b8a3;
+  --coding-medium: #ffc01e;
+  --coding-hard: #ff375f;
+  --coding-blue: oklch(0.73 0.14 240);
+  --coding-empty: #161b22;
+  --coding-level-1: #0e4429;
+  --coding-level-2: #006d32;
+  --coding-level-3: #26a641;
+  --coding-level-4: #39d353;
 }
 
 @layer base {
@@ -112,3 +125,27 @@
 @keyframes standby-float { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-5px) rotate(5deg); } }
 @media (max-height: 720px) { .standby-centerpiece { gap: 10px; } .standby-frame { width: 120px; height: 120px; } }
 @media (prefers-reduced-motion: reduce) { .standby-badge { animation: none; } .standby-frame, .standby-bubble { transition: none; } }
+
+.lc-dashboard { container-type: inline-size; }
+.lc-top-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.lc-card { background: var(--coding-surface); color: var(--coding-text); border: 1px solid var(--coding-border); }
+.lc-subtle { color: var(--coding-muted); }
+.lc-count { color: var(--coding-text); }
+.lc-easy { color: var(--coding-easy); stroke: var(--coding-easy); }
+.lc-medium { color: var(--coding-medium); stroke: var(--coding-medium); }
+.lc-hard { color: var(--coding-hard); stroke: var(--coding-hard); }
+.lc-solved { color: var(--coding-level-4); }
+.lc-ring-track { stroke: var(--coding-border); }
+.lc-stat, .lc-sync, .lc-period { background: var(--coding-empty); }
+.lc-period { color: var(--coding-text); border: 1px solid var(--coding-border); }
+.lc-badge { clip-path: polygon(50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%); background: linear-gradient(135deg, var(--coding-border), var(--coding-empty) 45%, var(--coding-border)); box-shadow: inset 0 0 0 4px currentColor; }
+.lc-badge-green { color: var(--coding-level-4); }
+.lc-badge-blue { color: var(--coding-blue); }
+.lc-cell { display: block; width: 8px; height: 8px; border-radius: 2px; }
+.lc-level-0 { background: var(--coding-empty); }
+.lc-level-1 { background: var(--coding-level-1); }
+.lc-level-2 { background: var(--coding-level-2); }
+.lc-level-3 { background: var(--coding-level-3); }
+.lc-level-4 { background: var(--coding-level-4); }
+@container (max-width: 540px) { .lc-top-grid { grid-template-columns: minmax(0, 1fr); } }
+@container (max-width: 300px) { .lc-progress { width: 130px; height: 130px; } }
