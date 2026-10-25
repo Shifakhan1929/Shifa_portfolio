@@ -51,7 +51,8 @@ describe("Desktop standby", () => {
   it("clears the tab-empty standby when another app launches", () => {
     render(<ShifaOS />);
     while (screen.queryAllByRole("button", { name: /^Close / }).length) {
-      fireEvent.click(screen.getAllByRole("button", { name: /^Close / })[0]);
+      const first = screen.getAllByRole("button", { name: /^Close / })[0];
+      if (first) fireEvent.click(first);
     }
     expect(centerpiece()).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "⌨️ Terminal" }));
