@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { projects, skills, timeline, journal, terminalOut, SOCIAL_LINKS, type Project } from "./data";
 import { StandbyCenterpiece, type Mood } from "./StandbyCenterpiece";
+import { Button } from "@/components/ui/button";
 
 type WinId = "portfolio" | "terminal" | "bin";
 type TabId = "overview" | "projects" | "skills" | "journal";
@@ -55,8 +56,8 @@ function Desktop() {
   useEffect(() => { if (standby) setMood("surprised"); }, [standby]);
 
   const launch = (id: WinId, t?: TabId) => {
+    setTabsEmpty(false);
     if (id === "portfolio") {
-      setTabsEmpty(false);
       if (!open.portfolio) setPortfolioVersion((version) => version + 1);
     }
     setOpen((o) => ({ ...o, [id]: true }));
@@ -94,7 +95,7 @@ function Desktop() {
 
       <div className="absolute bottom-20 left-4 top-14 z-0 flex flex-col gap-3 overflow-y-auto">
         {icons.map((i) => (
-          <button key={i.label} onDoubleClick={i.act} onClick={i.act} onPointerEnter={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} onFocus={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} className="group flex w-24 flex-col items-center gap-1 rounded-lg p-2 hover:bg-card/30">
+          <button key={i.label} onClick={i.act} onPointerEnter={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} onFocus={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} className="group flex w-24 shrink-0 flex-col items-center gap-1 rounded-lg p-2 hover:bg-card/30">
             <span className="pop flex h-12 w-12 items-center justify-center rounded-xl bg-card p-2 transition-transform group-hover:-translate-y-0.5">
               <img src={i.image} alt={i.label} className="h-full w-full object-contain filter drop-shadow-xs" />
             </span>
@@ -122,7 +123,6 @@ function Desktop() {
       </div>}
 
       {standby && <StandbyCenterpiece mood={mood} setMood={setMood} reopen={() => {
-        setPortfolioVersion((version) => version + 1);
         launch("portfolio", "overview");
       }} />}
 
@@ -211,7 +211,8 @@ function Window({ title, children, focused, onFocus, onClose, onMin, initial }: 
   useEffect(() => {
     const mv = (e: PointerEvent) => {
       if (!drag.current) return;
-      setRect((r) => r && { ...r, x: e.clientX - drag.current!.dx, y: Math.max(40, e.clientY - drag.current!.dy) });
+      const current = drag.current;
+      setRect((r) => r && { ...r, x: e.clientX - current.dx, y: Math.max(40, e.clientY - current.dy) });
     };
     const up = () => (drag.current = null);
     window.addEventListener("pointermove", mv);
@@ -729,6 +730,13 @@ type MApp = null | "about" | "projects" | "skills" | "terminal" | "journal" | "c
 function Pocket() {
   const now = useClock();
   const [app, setApp] = useState<MApp>(null);
+  const [standby, setStandby] = useState(false);
+  const [mood, setMood] = useState<Mood>("surprised");
+  const returnHome = () => {
+    setApp(null);
+    setStandby(true);
+    setMood("surprised");
+  };
   const grid: { id: MApp; label: string; image: string; act?: () => void }[] = [
     { id: "about", label: "About", image: "/folder-explorer.svg" },
     { id: "projects", label: "Projects", image: "/folder-projects.svg" },
@@ -740,6 +748,8 @@ function Pocket() {
   return (
     <div className="wallpaper relative min-h-screen overflow-hidden pb-24 font-sans">
       <div className="flex justify-between px-5 py-2 font-mono text-xs text-cream"><span>ShifaOS 5G</span><span>{now?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span><span>98% 🔋</span></div>
+      {standby && !app && <StandbyCenterpiece mobile mood={mood} setMood={setMood} reopen={() => setApp("about")} />}
+      {!standby && <>
       <div className="pop mx-4 mt-2 rounded-2xl bg-amber p-4">
         <div className="flex items-center gap-3">
           <img
@@ -798,6 +808,7 @@ function Pocket() {
           </div>
         ))}
       </div>
+      </>}
       <div className="mx-4 mt-3 grid grid-cols-3 gap-5">
         {grid.map((g) => (
           <button
@@ -822,9 +833,9 @@ function Pocket() {
       {app && (
         <div className="fixed inset-0 z-50 flex flex-col bg-cream animate-in slide-in-from-bottom duration-300">
           <div className="sticky top-0 border-b-[1.5px] border-espresso bg-secondary px-4 py-3">
-            <button onClick={() => setApp(null)} className="font-mono text-sm font-semibold">‹ Back to Home</button>
+            <Button variant="ghost" onClick={returnHome} className="font-mono text-sm font-semibold">‹ Back to Home</Button>
           </div>
-          <div className="flex-1 overflow-auto p-5 pb-28">
+          <div className="min-h-0 flex-1 overflow-auto p-5 pb-28">
             {app === "about" && <Overview go={() => setApp("projects")} />}
             {app === "projects" && <Projects />}
             {app === "skills" && <Skills />}
@@ -883,7 +894,7 @@ function Pocket() {
 
       <div className="glass pop fixed bottom-4 left-1/2 z-[60] flex -translate-x-1/2 gap-1 rounded-2xl p-1.5">
         {([[null, "🏠"], ["projects", "🚀"], ["terminal", "⌨️"], ["contact", "✉️"]] as [MApp, string][]).map(([id, e]) => (
-          <button key={e} onClick={() => setApp(id)} className={`rounded-xl px-4 py-2 text-xl ${app === id ? "bg-accent" : ""}`}>{e}</button>
+          <Button variant="ghost" size="icon" aria-label={id === null ? "Home" : id === "projects" ? "Projects" : id === "terminal" ? "Terminal" : "Contact"} key={e} onClick={() => { if (id === null) returnHome(); else setApp(id); }} className={`h-11 w-14 rounded-xl text-xl ${app === id ? "bg-accent" : ""}`}>{e}</Button>
         ))}
       </div>
     </div>

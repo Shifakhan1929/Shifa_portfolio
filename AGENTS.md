@@ -11,3 +11,5 @@
 
 - Keep desktop standby reactions in a dedicated client component, using global semantic mood tokens; this isolates idle timers and presentation from window management.
 - Closing the last desktop portfolio tab closes its window; a fresh portfolio mount restores all tabs when reopened.
+- Pocket shows the shared standby component after returning home from an app, while retaining its initial home screen; mobile uses normal-flow positioning so all actions stay reachable.
+- Standby timers count pointer, keyboard, focus, and scroll activity, wake idle reactions on return, and pause while the document is hidden.

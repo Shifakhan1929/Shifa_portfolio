@@ -93,7 +93,10 @@
 }
 @utility glass { background: oklch(0.985 0.008 80 / 0.7); backdrop-filter: blur(14px); }
 
-.standby-centerpiece { --mood-aura: var(--primary); }
+.standby-centerpiece { --mood-aura: var(--primary); justify-content: safe center; }
+.standby-mobile { justify-content: flex-start; }
+.standby-mobile .standby-actions { display: grid; width: 100%; max-width: 360px; }
+.standby-mobile .standby-actions > * { min-height: 44px; }
 .standby-centerpiece[data-mood="hire"] { --mood-aura: var(--standby-hire); }
 .standby-centerpiece[data-mood="resume"] { --mood-aura: var(--standby-resume); }
 .standby-centerpiece[data-mood="bin"] { --mood-aura: var(--standby-bin); }
