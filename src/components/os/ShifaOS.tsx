@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { projects, skills, timeline, journal, terminalOut, SOCIAL_LINKS, type Project } from "./data";
+import { StandbyCenterpiece, type Mood } from "./StandbyCenterpiece";
 
 type WinId = "portfolio" | "terminal" | "bin";
 type TabId = "overview" | "projects" | "skills" | "journal";
@@ -46,8 +47,18 @@ function Desktop() {
   const [min, setMin] = useState<Record<WinId, boolean>>({ portfolio: false, terminal: false, bin: false });
   const [focus, setFocus] = useState<WinId>("portfolio");
   const [tab, setTab] = useState<TabId>("overview");
+  const [mood, setMood] = useState<Mood>("surprised");
+  const [portfolioVersion, setPortfolioVersion] = useState(0);
+  const [tabsEmpty, setTabsEmpty] = useState(false);
+  const standby = tabsEmpty || !Object.values(open).some(Boolean);
+
+  useEffect(() => { if (standby) setMood("surprised"); }, [standby]);
 
   const launch = (id: WinId, t?: TabId) => {
+    if (id === "portfolio") {
+      setTabsEmpty(false);
+      if (!open.portfolio) setPortfolioVersion((version) => version + 1);
+    }
     setOpen((o) => ({ ...o, [id]: true }));
     setMin((m) => ({ ...m, [id]: false }));
     setFocus(id);
@@ -81,9 +92,9 @@ function Desktop() {
     <div className="wallpaper relative h-screen overflow-hidden font-sans">
       <SystemBar now={now} classic={classic} setClassic={setClassic} app={open[focus] ? (focus === "portfolio" ? "Portfolio Explorer" : focus === "terminal" ? "Terminal" : "Recycle Bin") : "Desktop"} />
 
-      <div className="absolute left-4 top-14 z-0 flex flex-col gap-3">
+      <div className="absolute bottom-20 left-4 top-14 z-0 flex flex-col gap-3 overflow-y-auto">
         {icons.map((i) => (
-          <button key={i.label} onDoubleClick={i.act} onClick={i.act} className="group flex w-24 flex-col items-center gap-1 rounded-lg p-2 hover:bg-card/30">
+          <button key={i.label} onDoubleClick={i.act} onClick={i.act} onPointerEnter={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} onFocus={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} className="group flex w-24 flex-col items-center gap-1 rounded-lg p-2 hover:bg-card/30">
             <span className="pop flex h-12 w-12 items-center justify-center rounded-xl bg-card p-2 transition-transform group-hover:-translate-y-0.5">
               <img src={i.image} alt={i.label} className="h-full w-full object-contain filter drop-shadow-xs" />
             </span>
@@ -92,7 +103,7 @@ function Desktop() {
         ))}
       </div>
 
-      <div className="pop absolute right-6 top-16 z-0 w-64 rotate-2 rounded-xl bg-amber/90 p-4">
+      {!standby && <div className="pop absolute right-6 top-16 z-0 w-64 rotate-2 rounded-xl bg-amber/90 p-4">
         <div className="flex items-center gap-3">
           <img
             src="/shifa.jpg"
@@ -108,13 +119,21 @@ function Desktop() {
         <span className="pop mt-3 inline-flex items-center gap-1.5 rounded-full bg-cream px-2.5 py-1 font-mono text-[10px]">
           <span className="h-2 w-2 animate-pulse rounded-full bg-sage" /> Available for Internships / Full-Time
         </span>
-      </div>
+      </div>}
+
+      {standby && <StandbyCenterpiece mood={mood} setMood={setMood} reopen={() => {
+        setPortfolioVersion((version) => version + 1);
+        launch("portfolio", "overview");
+      }} />}
 
       {open.portfolio && !min.portfolio && (
         <Window id="portfolio" title="Shifa_Portfolio_Explorer.exe" focused={focus === "portfolio"} onFocus={() => setFocus("portfolio")}
           onClose={() => setOpen((o) => ({ ...o, portfolio: false }))} onMin={() => setMin((m) => ({ ...m, portfolio: true }))}
           initial={{ wPct: 0.62, hPct: 0.78 }}>
-          <PortfolioBody tab={tab} setTab={setTab} />
+          <PortfolioBody key={portfolioVersion} tab={tab} setTab={setTab} onEmpty={() => {
+            setTabsEmpty(true);
+            setOpen((o) => ({ ...o, portfolio: false }));
+          }} />
         </Window>
       )}
       {open.terminal && !min.terminal && (
@@ -226,12 +245,14 @@ function WinBtn({ children, onClick, cls }: { children: ReactNode; onClick: () =
 
 /* ---------------- Portfolio content ---------------- */
 
-function PortfolioBody({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
+function PortfolioBody({ tab, setTab, onEmpty }: { tab: TabId; setTab: (t: TabId) => void; onEmpty?: () => void }) {
   const [tabs, setTabs] = useState<TabId[]>(TABS.map((t) => t.id));
   const close = (id: TabId) => {
     const next = tabs.filter((t) => t !== id);
     setTabs(next);
-    if (tab === id && next.length) setTab(next[0]!);
+    const first = next[0];
+    if (tab === id && first) setTab(first);
+    if (!next.length) onEmpty?.();
   };
   const missing = TABS.filter((t) => !tabs.includes(t.id));
   useEffect(() => { if (!tabs.includes(tab)) setTabs((t) => [...t, tab]); }, [tab]);
@@ -243,11 +264,11 @@ function PortfolioBody({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void
           <div key={t.id} onClick={() => setTab(t.id)}
             className={`group flex cursor-pointer items-center gap-2 rounded-t-lg border-[1.5px] border-b-0 px-3 py-1.5 font-mono text-xs ${tab === t.id ? "-mb-[1.5px] border-espresso bg-cream" : "border-transparent hover:bg-accent"}`}>
             {t.label}
-            <button onClick={(e) => { e.stopPropagation(); close(t.id); }} className="opacity-40 hover:opacity-100">×</button>
+            <button aria-label={`Close ${t.label}`} onClick={(e) => { e.stopPropagation(); close(t.id); }} className="opacity-40 hover:opacity-100">×</button>
           </div>
         ))}
         {missing.length > 0 && (
-          <button onClick={() => { setTabs((t) => [...t, missing[0]!.id]); setTab(missing[0]!.id); }} className="px-3 py-1.5 font-mono text-sm hover:text-primary">+</button>
+          <button onClick={() => { const first = missing[0]; if (first) { setTabs((t) => [...t, first.id]); setTab(first.id); } }} className="px-3 py-1.5 font-mono text-sm hover:text-primary">+</button>
         )}
       </div>
       <div className="flex-1 overflow-auto bg-cream p-8">
