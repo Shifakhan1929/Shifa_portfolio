@@ -92,7 +92,7 @@ function Desktop() {
     <div className="wallpaper relative h-screen overflow-hidden font-sans">
       <SystemBar now={now} classic={classic} setClassic={setClassic} app={open[focus] ? (focus === "portfolio" ? "Portfolio Explorer" : focus === "terminal" ? "Terminal" : "Recycle Bin") : "Desktop"} />
 
-      <div className="absolute left-4 top-14 z-0 flex flex-col gap-3">
+      <div className="absolute bottom-20 left-4 top-14 z-0 flex flex-col gap-3 overflow-y-auto">
         {icons.map((i) => (
           <button key={i.label} onDoubleClick={i.act} onClick={i.act} onPointerEnter={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} onFocus={() => { if (standby && i.label === "Recycle_Bin") setMood("bin"); }} className="group flex w-24 flex-col items-center gap-1 rounded-lg p-2 hover:bg-card/30">
             <span className="pop flex h-12 w-12 items-center justify-center rounded-xl bg-card p-2 transition-transform group-hover:-translate-y-0.5">

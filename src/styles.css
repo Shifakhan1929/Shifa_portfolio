@@ -104,7 +104,7 @@
 .standby-bubble::after { content: ""; position: absolute; bottom: -9px; left: calc(50% - 8px); width: 16px; height: 16px; background: var(--card); border-right: 1.5px solid var(--espresso); border-bottom: 1.5px solid var(--espresso); transform: rotate(45deg); }
 .standby-contact { background: var(--standby-hire); color: var(--espresso); }
 .standby-contact:hover { background: color-mix(in oklch, var(--standby-hire) 85%, var(--cream)); }
-.standby-chip[aria-pressed="true"], .standby-chip:hover { background: var(--cream); color: var(--espresso); }
+.standby-chip[aria-pressed="true"], .standby-chip:hover, .standby-chip:focus-visible { background: var(--cream); color: var(--espresso); }
 .standby-badge { animation: standby-float 3s ease-in-out infinite; }
 @keyframes standby-float { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-5px) rotate(5deg); } }
 @media (max-height: 720px) { .standby-centerpiece { gap: 10px; } .standby-frame { width: 120px; height: 120px; } }
