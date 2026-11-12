@@ -1,24 +1,49 @@
-# Window Shopper Studio
+# Shifa Portfolio 💻
 
-just give me the ui only .........................
+A modern frontend project built with React and TypeScript, exploring interactive user interfaces, responsive layouts, and component-based development.
 
-This project was built with [Lovable](https://lovable.dev).
+##  Built With
+- React
+- TypeScript
+- TanStack Start
+- TanStack Router
+- Tailwind CSS
+- Vite
+- Recharts
+- Lucide React
 
-## Build with Lovable
+##  Getting Started
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/342d3945-308d-4c20-8e6a-5d1634f4ec7e).
+Clone the repository:
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+```bash
+git clone https://github.com/Shifakhan1929/Shifa_portfolio.git
+cd Shifa_portfolio
+```
 
-## Development
+Install dependencies:
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+```bash
+npm install
+```
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+Start the development server:
+
+```bash
 npm run dev
 ```
+
+##  Testing
+
+```bash
+npm run test
+```
+
+##  Build
+
+```bash
+npm run build
+```
+
+---
+*Building, experimenting, and growing through frontend development.*
